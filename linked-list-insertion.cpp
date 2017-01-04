@@ -3,8 +3,7 @@
 Linked list insertion
 =====================
 
-Ref - http://www.geeksforgeeks.org/stock-buy-sell/
-    - Cormen 4.1
+Ref - https://www.hackerrank.com/challenges/insert-a-node-at-a-specific-position-in-a-linked-list
 
 --------------------------------------------------------------------------------
 
