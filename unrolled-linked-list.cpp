@@ -13,16 +13,17 @@ Operations on an Unrolled linked list.
 
 --------------------------------------------------------------------------------
 
-Time Complexity
-===============
-O(n ^ 1/2)
+Algorithm
+=========
+
+1. Shift extra node in a block to the next block when inserting
+2. Create new block if the last block exceeds blockSize
 
 --------------------------------------------------------------------------------
 
-Output
-======
-Buy on day : 0   Sell on day: 3
-Buy on day : 4   Sell on day: 6
+Time Complexity
+===============
+O(n ^ 1/2)
 
 *******************************************************************************/
 
@@ -40,7 +41,7 @@ struct Block    {
     int count;
 };
 
-struct * getNode(int data)  {
+struct Node * getNode(int data)  {
     Node *newNode = new Node();
     newNode->data = data;
     newNode->next = NULL;
@@ -48,10 +49,11 @@ struct * getNode(int data)  {
     return newNode;
 }
 
-struct * getBlock() {
+struct Block * getBlock() {
     Block *newBlock = new Block();
     newBlock->count = 0;
-    newBlock->next = newBlock->head = NULL;
+    newBlock->next = NULL;
+    newBlock->head = NULL;
 
     return newBlock;
 }
@@ -119,7 +121,7 @@ void insert(Block **block, int data, int k)    {
             shift(blockHead, 3);
         }
         else    {
-            search(r, p, 3, k);
+            search(&r, &p, 3, k);
             q = p;
             while(q->next != p)
                 q = q->next;
@@ -129,10 +131,4 @@ void insert(Block **block, int data, int k)    {
             shift(r, 3);
         }
     }
-}
-
-int main()  {
-    Block *blockHead = NULL;
-    insert(&blockHead, 1, 0);
-    return 0;
 }
