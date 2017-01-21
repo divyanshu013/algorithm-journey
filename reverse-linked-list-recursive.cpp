@@ -73,10 +73,11 @@ void reverse(Node **head)   {
     if(rest == NULL)
         return;
 
-    reverse(&rest);
+    reverse(&rest); // call by reference
     (*head)->next->next = *head;
     (*head)->next = NULL;
 
+    // in each recursive call *rest becomes (*head)->next and never updates after last call
     *head = rest;
 }
 
