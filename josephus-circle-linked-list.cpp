@@ -33,6 +33,7 @@ Reverse blocks of k nodes
 =========================
 
 Ref - http://www.geeksforgeeks.org/reverse-a-list-in-groups-of-given-size/
+    - http://www.sanfoundry.com/c-program-solve-josephus-problem-using-linked-list/
 
 --------------------------------------------------------------------------------
 
@@ -51,7 +52,15 @@ O(n)
 Output
 ======
 9 -> 8 -> 7 -> 6 -> 5 -> 4 -> 3 -> 2 -> 1
-7 -> 8 -> 9 -> 4 -> 5 -> 6 -> 1 -> 2 -> 3
+Killing 3
+Killing 5
+Killing 6
+Killing 4
+Killing 1
+Killing 7
+Killing 2
+Killing 9
+Last remaining node is 8
 
 *******************************************************************************/
 
@@ -93,14 +102,17 @@ void printList(Node *head)  {
 
 void josephus(Node *head, int m)   {
     Node *current = head;
-    while(true)   {
+    while(current->next != current)   {
+        Node *temp = current;
         for(int i = 0; i < m - 1; ++i)  {
+            temp = current;
             current = current->next;
         }
-
-        current->next = current->next->next;
-        if(current == head && current->next == head)
-            break;
+        // current needs to be deleted
+        temp->next = current->next;
+        printf("Killing %d\n", current->data);
+        delete(current);
+        current = temp->next;
     }
 
     printf("Last remaining node is %d\n", current->data);
@@ -120,5 +132,5 @@ int main()  {
     end->next = head;
     printList(head);
 
-    josephus(head, 3);  // eliminate every 7th person around the circle
+    josephus(head, 7);  // eliminate every 7th person around the circle
 }
