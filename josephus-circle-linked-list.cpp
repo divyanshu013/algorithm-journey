@@ -4,6 +4,7 @@ Josephus circle linked list
 ===========================
 
 Ref - http://www.geeksforgeeks.org/josephus-problem-set-1-a-on-solution/
+    - http://www.sanfoundry.com/c-program-solve-josephus-problem-using-linked-list/
 
 --------------------------------------------------------------------------------
 
@@ -17,35 +18,6 @@ Josephus Circle problem.
 Time Complexity
 ===============
 O(n^2)
-
---------------------------------------------------------------------------------
-
-Output
-======
-Buy on day : 0   Sell on day: 3
-Buy on day : 4   Sell on day: 6
-
-*******************************************************************************/
-
-/*******************************************************************************
-
-Reverse blocks of k nodes
-=========================
-
-Ref - http://www.geeksforgeeks.org/reverse-a-list-in-groups-of-given-size/
-    - http://www.sanfoundry.com/c-program-solve-josephus-problem-using-linked-list/
-
---------------------------------------------------------------------------------
-
-Problem
-=======
-Reverse blocks of k nodes in linked list.
-
---------------------------------------------------------------------------------
-
-Time Complexity
-===============
-O(n)
 
 --------------------------------------------------------------------------------
 
