@@ -3,11 +3,6 @@
 Immediate span array
 ====================
 
-Ref - http://www.geeksforgeeks.org/stock-buy-sell/
-    - Cormen 4.1
-
---------------------------------------------------------------------------------
-
 Problem
 =======
 Maximum number of elements A[j] preceeding A[i] such that A[j] <= A[i]
