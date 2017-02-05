@@ -21,8 +21,13 @@ O(n)
 
 Output
 ======
-Buy on day : 0   Sell on day: 3
-Buy on day : 4   Sell on day: 6
+1 -> 2 -> 3 -> 4
+Dequeued 1
+Dequeued 2
+Dequeued 3
+Dequeued 4
+Queue empty
+1 -> 2 -> 3 -> 4
 
 *******************************************************************************/
 
