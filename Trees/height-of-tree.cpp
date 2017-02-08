@@ -1,15 +1,15 @@
 /*******************************************************************************
 
-Reverse level order traversal
-=============================
+Height of tree
+==============
 
-Ref - http://www.geeksforgeeks.org/reverse-level-order-traversal/
+Ref - http://www.geeksforgeeks.org/write-a-c-program-to-find-the-maximum-depth-or-height-of-a-tree/
 
 --------------------------------------------------------------------------------
 
 Problem
 =======
-Level order traversal in reverse order of levels
+Find the height or maximum depth of a tree.
 
 --------------------------------------------------------------------------------
 
@@ -21,14 +21,13 @@ O(n)
 
 Output
 ======
-Reverse level order traversal:
-4 5 2 3 1
+Buy on day : 0   Sell on day: 3
+Buy on day : 4   Sell on day: 6
 
 *******************************************************************************/
 
 #include <stdio.h>
-#include <queue>
-#include <stack>
+#include <algorithm>
 using namespace std;
 
 struct Node {
@@ -45,27 +44,11 @@ struct Node * getNode(int data)  {
     return newNode;
 }
 
-void reverseLevel(Node *root)   {
-    if(root)    {
-        queue<Node *> q;
-        stack<Node *> s;
-        q.push(root);
-        while(!q.empty())   {
-            root = q.front();
-            q.pop();
-            s.push(root);
-            if(root->right)
-                q.push(root->right);
-            if(root->left)
-                q.push(root->left);
-        }
-
-        while(!s.empty())   {
-            root = s.top();
-            printf("%d ", root->data);
-            s.pop();
-        }
-    }
+int height(Node *root)  {
+    if(root)
+        return max(height(root->left), height(root->right)) + 1;
+    else
+        return 0;
 }
 
 int main()  {
@@ -75,8 +58,6 @@ int main()  {
     root->left->left = getNode(4);
     root->left->right = getNode(5);
 
-    printf("Reverse level order traversal:\n");
-    reverseLevel(root);
-    printf("\n");
+    printf("Height/depth of the tree: %d\n", height(root));
     return 0;
 }
