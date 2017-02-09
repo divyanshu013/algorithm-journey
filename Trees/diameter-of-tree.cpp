@@ -22,8 +22,7 @@ O(n)
 
 Output
 ======
-Buy on day : 0   Sell on day: 3
-Buy on day : 4   Sell on day: 6
+Diameter: 5
 
 *******************************************************************************/
 
