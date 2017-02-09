@@ -1,15 +1,13 @@
 /*******************************************************************************
 
-Height of tree
-==============
-
-Ref - http://www.geeksforgeeks.org/write-a-c-program-to-find-the-maximum-depth-or-height-of-a-tree/
+Number of full half and leaf nodes
+==================================
 
 --------------------------------------------------------------------------------
 
 Problem
 =======
-Find the height or maximum depth of a tree.
+Number of leaf, full and half nodes in a tree.
 
 --------------------------------------------------------------------------------
 
@@ -21,12 +19,15 @@ O(n)
 
 Output
 ======
-Height/depth of the tree: 3
+Leaf Nodes: 3
+Half Nodes: 1
+Full Nodes: 2
 
 *******************************************************************************/
 
 #include <stdio.h>
-#include <algorithm>
+#include <queue>
+
 using namespace std;
 
 struct Node {
@@ -43,11 +44,32 @@ struct Node * getNode(int data)  {
     return newNode;
 }
 
-int height(Node *root)  {
-    if(root)
-        return max(height(root->left), height(root->right)) + 1;
-    else
-        return 0;
+void printNodes(Node *root) {
+    if(root)    {
+        queue<Node *> q;
+        q.push(root);
+        int leaf = 0, full = 0, half = 0;
+        while(!q.empty())   {
+            root = q.front();
+            q.pop();
+            if(root->left && root->right)
+                full++;
+            else if(root->left || root->right)
+                half++;
+            else
+                leaf++;
+
+            if(root->left)
+                q.push(root->left);
+            if(root->right)
+                q.push(root->right);
+        }
+
+        printf("Leaf Nodes: %d\nHalf Nodes: %d\nFull Nodes: %d\n", leaf, half, full);
+    }
+    else    {
+        printf("Root is NULL\n");
+    }
 }
 
 int main()  {
@@ -56,7 +78,8 @@ int main()  {
     root->right = getNode(3);
     root->left->left = getNode(4);
     root->left->right = getNode(5);
+    root->right->right = getNode(6);
 
-    printf("Height/depth of the tree: %d\n", height(root));
+    printNodes(root);
     return 0;
 }
