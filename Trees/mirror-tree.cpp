@@ -28,7 +28,8 @@ Actual Tree:
 Mirrored Tree:
 1
 3 2
-6 5 4 
+6 5 4
+Trees are mirrors
 
 *******************************************************************************/
 
@@ -62,6 +63,19 @@ void mirror(Node *root) {
     }
     else
         return;
+}
+
+bool isMirror(Node *root1, Node *root2)   {
+    if(root1 && root2)  {
+        if(root1->data == root2->data)
+            return isMirror(root1->left, root2->right) && isMirror(root1->right, root2->left);
+        else
+            return false;
+    }
+    else if(!root1 && !root2)   // both NULL
+        return true;
+    else
+        return false;
 }
 
 void printTree(Node *root) {
@@ -98,5 +112,17 @@ int main()  {
     mirror(root);
     printf("Mirrored Tree:\n");
     printTree(root);
+
+    // recreating the tree before mirrored
+    Node *root2 = getNode(1);
+    root2->left = getNode(2);
+    root2->right = getNode(3);
+    root2->left->left = getNode(4);
+    root2->left->right = getNode(5);
+    root2->right->right = getNode(6);
+    if(isMirror(root, root2))
+        printf("Trees are mirrors\n");
+    else
+        printf("Trees are NOT mirrors\n");
     return 0;
 }
