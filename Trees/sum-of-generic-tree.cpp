@@ -42,6 +42,8 @@ struct Node * getNode(int data)  {
 int getSum(Node *root)  {
     if(root)
         return root->data + getSum(root->firstChild) + getSum(root->nextSibling);
+    else
+        return 0;
 }
 
 int main()  {
