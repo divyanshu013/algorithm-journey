@@ -29,6 +29,8 @@ O(1) unlike normal binary trees
 Output
 ======
 2 5 1 16 11 31
+After insertion of the node:
+2 5 1 16 11 13 31
 
 *******************************************************************************/
 
@@ -67,6 +69,23 @@ void inorder(Node *root)    {
     }
 }
 
+void insert(Node *p, int data)  {
+    Node *q = getNode(data);
+    q->right = p->right;
+    q->rTag = p->rTag;
+    q->left = p;
+    q->lTag = 0;
+    p->right = q;
+    p->rTag = 1;
+
+    if(q->rTag) {
+        Node *temp = q->right;
+        while(temp->lTag)
+            temp = temp->left;
+        temp->left = q;
+    }
+}
+
 int main()  {
     Node *root = getNode(-1);   // dummy node
     root->lTag = root->rTag = 1;
@@ -94,6 +113,10 @@ int main()  {
     n6->right = root;
 
     inorder(root);  // inorder traversal using inorder successor
+    printf("\n");
+    insert(n4, 13); // inserts a node with data 13 after node n4
+    printf("After insertion of the node:\n");
+    inorder(root);
     printf("\n");
     return 0;
 }
