@@ -37,8 +37,32 @@ struct Node * preoderSuccessor(Node *p)  {
         }
         else    {
             while(!p->right)    {
-                
+                p = s.top();
+                s.pop();
             }
+            p = p->right;
         }
     }
+
+    return p;
+}
+
+struct Node * inorderSuccessor(Node *p) {
+    static stack<Node *> s;
+    if(p)   {
+        if(p->right)    {
+            s.push(p);
+            p = p->right;
+            while(p->left)  {
+                s.push(p);
+                p = p->left;
+            }
+        }
+        else    {
+            p = s.top();
+            s.pop();
+        }
+    }
+
+    return p;
 }
