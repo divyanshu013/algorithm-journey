@@ -4,6 +4,7 @@ Stock Buy Sell to Maximize Profit
 =================================
 
 Ref - http://quiz.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/
+    - http://quiz.geeksforgeeks.org/binary-search-tree-set-2-delete/
 
 --------------------------------------------------------------------------------
 
@@ -33,6 +34,16 @@ Highest element in tree: 80
 
 Data 60 exists in tree
 Data 75 does NOT exist in tree
+
+Tree after deleting 60:
+50
+30 70
+20 40 80
+
+Tree after deleting 30:
+50
+20 70
+40 80
 
 *******************************************************************************/
 
@@ -116,6 +127,47 @@ struct Node * find(Node *root, int data)    {
     return NULL;
 }
 
+struct Node * maxChild(Node *root)  {
+    if(root->right)
+        return maxChild(root->right);
+
+    return root;
+}
+
+struct Node * del(Node *root, int data) {
+    if(!root)
+        return NULL;
+
+    if(data == root->data)  {
+        // only one child
+        if(!root->left) {
+            Node *temp = root->right;
+            delete(root);
+            return temp;
+        }
+        else if(!root->right)   {
+            Node *temp = root->left;
+            delete(root);
+            return temp;
+        }
+
+        // both children
+        else    {
+            Node *temp = maxChild(root->left);
+            root->data = temp->data;
+            root->left = del(root->left, temp->data);
+        }
+    }
+
+    else if(data < root->data)
+        root->left = del(root->left, data);
+
+    else
+        root->right = del(root->right, data);
+
+    return root;
+}
+
 int main()
 {
     /* BST
@@ -150,6 +202,16 @@ int main()
         printf("Data 75 exists in tree\n");
     else
         printf("Data 75 does NOT exist in tree\n");
+
+    printf("\nTree after deleting 60:\n");
+    del(root, 60);
+    printTree(root);
+    printf("\n");
+
+    printf("Tree after deleting 30:\n");
+    del(root, 30);
+    printTree(root);
+    printf("\n");
 
     return 0;
 }
