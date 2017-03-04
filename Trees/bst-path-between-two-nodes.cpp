@@ -1,27 +1,30 @@
 /*******************************************************************************
 
-BST lowest common ancestor
-==========================
-
-Ref - http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/
+BST Find path between two nodes
+===============================
 
 --------------------------------------------------------------------------------
 
 Time Complexity
 ===============
-O(logn)
+O(n)
 
 --------------------------------------------------------------------------------
 
 Output
 ======
-LCA of 8 and 22 is 20
-LCA of 10 and 22 is 20
-LCA of 8 and 14 is 8
+Path from 4 to 22 is:
+4 8 20 22
+Path from 14 to 4 is:
+4 8 12 14
+Path from 20 to 4 is:
+4 8 20
 
 *******************************************************************************/
 
 #include <stdio.h>
+#include <stack>
+using namespace std;
 
 struct Node {
     int data;
@@ -47,9 +50,6 @@ struct Node * getLCA(Node *root, int a, int b)  {
     if(!root)
         return NULL;    // LCA doesn't exist
 
-    if(a > b)   // make a less than b
-        swap(&a, &b);
-
     if(root->data >= a && root->data <= b)  // adding equals comparisson if one of the node itself is the LCA
         return root;
 
@@ -60,6 +60,46 @@ struct Node * getLCA(Node *root, int a, int b)  {
         return getLCA(root->right, a, b);
 
     return root;
+}
+
+void printPath(Node *root, int a, int b)    {
+    if(a > b)   // make a less than b
+        swap(&a, &b);
+
+    Node *lca = getLCA(root, a, b);
+    if(!lca)    {
+        printf("Invalid nodes\n");
+        return;
+    }
+
+    stack<int> s;
+    Node *temp = lca;
+    while(temp->data != a)    {
+        s.push(temp->data);
+        if(a < temp->data)
+            temp = temp->left;
+        else
+            temp = temp->right;
+    }
+    s.push(temp->data); // a
+
+    while(!s.empty())   {
+        printf("%d ", s.top());
+        s.pop();
+    }
+
+    temp = lca->right; // root already added to path
+    if(!temp || lca->data == b)
+        return; // LCA is the node itself
+
+    while(temp->data != b)  {
+        printf("%d ", temp->data);
+        if(b > temp->data)
+            temp = temp->right;
+        else
+            temp = temp->left;
+    }
+    printf("%d ", temp->data);  // add b itself
 }
 
 int main()
@@ -81,9 +121,15 @@ int main()
    root->left->right->left = getNode(10);
    root->left->right->right = getNode(14);
 
-    printf("LCA of 8 and 22 is %d\n", getLCA(root, 22, 8)->data);
-    printf("LCA of 10 and 22 is %d\n", getLCA(root, 10, 22)->data);
-    printf("LCA of 8 and 14 is %d\n", getLCA(root, 8, 14)->data);
+   printf("Path from 4 to 22 is:\n");
+   printPath(root, 4, 22);
+   printf("\n");
+   printf("Path from 14 to 4 is:\n");
+   printPath(root, 14, 4);
+   printf("\n");
+   printf("Path from 20 to 4 is:\n");
+   printPath(root, 20, 4);
+   printf("\n");
 
-    return 0;
+   return 0;
 }
