@@ -16,7 +16,7 @@ O(n)
 Output
 ======
 Tree is NOT BST
-
+Tree is NOT BST
 
 *******************************************************************************/
 
@@ -44,6 +44,19 @@ bool isBST(Node *root, int min, int max)  {
         return root->data > min && root->data < max && isBST(root->left, min, root->data) && isBST(root->right, root->data, max);
 }
 
+bool isBSTAlt(Node *root, int *prev)    {
+    if(!root)
+        return true;
+    else    {
+        if(!isBSTAlt(root->left, prev))
+            return false;
+        if(root->data < *prev)
+            return false;
+        *prev = root->data;
+        return isBSTAlt(root->right, prev);
+    }
+}
+
 int main()  {
 
     /* BST
@@ -68,5 +81,9 @@ int main()  {
     else
         printf("Tree is NOT BST\n");
 
-
+    int prev = INT_MIN;
+    if(isBSTAlt(root, &prev))
+        printf("Tree is BST\n");
+    else
+        printf("Tree is NOT BST\n");
 }
