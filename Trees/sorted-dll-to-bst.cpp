@@ -15,7 +15,7 @@ Output
 ======
 3
 2 5
-1 4 
+1 4
 
 *******************************************************************************/
 
@@ -66,7 +66,7 @@ struct Node * mid(Node *head)   {
     if(!head)
         return NULL;
 
-    while(fast && fast->next)   {
+    while(fast && fast->next)   {   // need the second middle node for even list
         fast = fast->next->next;
         slow = slow->next;
     }
