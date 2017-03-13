@@ -33,6 +33,16 @@ AVL Tree is:
 20 (10, 25) 40 (NULL, 50)
 10 (NULL, NULL) 25 (NULL, NULL) 50 (NULL, NULL)
 
+After deleting 20:
+30 (10, 40)
+10 (NULL, 25) 40 (NULL, 50)
+25 (NULL, NULL) 50 (NULL, NULL)
+
+After deleting 30:
+25 (10, 40)
+10 (NULL, NULL) 40 (NULL, 50)
+50 (NULL, NULL)
+
 *******************************************************************************/
 
 #include <stdio.h>
@@ -173,6 +183,77 @@ struct Node * insert(Node *root, int data)  {
         return root;    // unchanged
 }
 
+struct Node * maxChild(Node *root)  {
+    while(root->right)
+        root = root->right;
+
+    return root;
+}
+
+struct Node * del(Node *root, int data) {
+    if(!root)
+        return root;
+
+    if(data < root->data)
+        root->left = del(root->left, data);
+
+    else if(data > root->data)
+        root->right = del(root->right, data);
+
+    else    {
+        if(!root->left) {
+            Node *temp = root->right;
+            delete(root);
+            return temp;
+        }
+        else if(!root->right)   {
+            Node *temp = root->left;
+            delete(root);
+            return temp;
+        }
+        else    {
+            Node *temp = maxChild(root->left);
+            root->data = temp->data;
+            root->left = del(root->left, temp->data);
+        }
+    }
+
+    if(!root)   // last node was deleted
+        return root;
+
+    setHeight(root);
+    int balance = getBalance(root);
+
+    // Left case
+    if(balance > 1) {
+        if(data < root->left->data) {
+            // LL (needs right rotation)
+            return LLSingle(root);
+        }
+        else    {
+            // LR (needs left and right rotation)
+            root->left = RRSingle(root->left);
+            return LLSingle(root);
+        }
+    }
+
+    // Right case
+    else if(balance < -1)   {
+        if(data > root->right->data)    {
+            // RR (needs left rotation)
+            return RRSingle(root);
+        }
+        else    {
+            // RL (needs right and left rotation)
+            root->right = LLSingle(root->right);
+            return RRSingle(root);
+        }
+    }
+
+    else
+        return root;    // unchanged
+}
+
 int main()  {
     Node *root = NULL;
     root = insert(root, 10);
@@ -191,6 +272,17 @@ int main()  {
 
     printf("AVL Tree is:\n");
     printTree(root);
+    printf("\n");
+
+    printf("After deleting 20:\n");
+    root = del(root, 20);
+    printTree(root);
+    printf("\n");
+
+    printf("After deleting 30:\n");
+    root = del(root, 30);
+    printTree(root);
+    printf("\n");
 
     return 0;
 }
