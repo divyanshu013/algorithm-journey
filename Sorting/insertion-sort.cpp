@@ -1,15 +1,15 @@
 /*******************************************************************************
 
-Selection sort
+Insertion sort
 ==============
 
-Ref - http://quiz.geeksforgeeks.org/selection-sort/
+Ref - http://quiz.geeksforgeeks.org/insertion-sort/
 
 --------------------------------------------------------------------------------
 
 Problem
 =======
-Classic old selection sort.
+Classic old insertion sort.
 
 --------------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ Output
 ======
 Array is initially:
 64 34 25 12 22 11 90
-After selection sort, array is:
+After insertion sort, array is:
 11 12 22 25 34 64 90
 
 *******************************************************************************/
@@ -36,18 +36,15 @@ void printArray(int arr[], int n) {
   printf("\n");
 }
 
-void selectionSort(int arr[], int n) {
-  for(int i = 0; i < n - 1; ++i)  {
-    int min = i;
-    for(int j = i + 1; j < n; ++j)  {
-      if(arr[j] < arr[min])
-        min = j;
+void insertionSort(int arr[], int n) {
+  for(int i = 1; i < n; ++i)  {
+    int temp = arr[i];
+    int j = i;
+    while(j > 0 && arr[j - 1] > temp) {
+      arr[j] = arr[j - 1];
+      j--;
     }
-    if(min != i)  {
-      int temp = arr[min];
-      arr[min] = arr[i];
-      arr[i] = temp;
-    }
+    arr[j] = temp;
   }
 }
 
@@ -55,8 +52,8 @@ int main()  {
   int arr[] = {64, 34, 25, 12, 22, 11, 90};
   printf("Array is initially:\n");
   printArray(arr, 7);
-  printf("After selection sort, array is:\n");
-  selectionSort(arr, 7);
+  printf("After insertion sort, array is:\n");
+  insertionSort(arr, 7);
   printArray(arr, 7);
   return 0;
 }
